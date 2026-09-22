@@ -37,6 +37,12 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 #watercolorBg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;width:100%;height:100%;
   opacity:.7;mix-blend-mode:multiply;pointer-events:none}
 
+/* ============ 叶子光标 ============ */
+@media (pointer:fine){
+  html{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M5 21 C5 9.5 10 4.5 21 4.5 C21.5 16.5 15.5 21 5 21 Z' fill='%233fae7a' opacity='.95'/%3E%3Cpath d='M5 21 C10.5 16 14.5 10.5 21 4.5' stroke='%232c6b4a' stroke-width='1.1' fill='none' stroke-linecap='round'/%3E%3Cpath d='M9 13.5 C10.5 12 12 11 13.5 10.2 M10.5 17 C12.5 15 14.5 13.6 16.8 12.4' stroke='%232c6b4a' stroke-width='.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") 13 12, auto}
+  a,button,.cert-item,#screen{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M5 21 C5 9.5 10 4.5 21 4.5 C21.5 16.5 15.5 21 5 21 Z' fill='%233fae7a' opacity='.95'/%3E%3Cpath d='M5 21 C10.5 16 14.5 10.5 21 4.5' stroke='%232c6b4a' stroke-width='1.1' fill='none' stroke-linecap='round'/%3E%3Cpath d='M9 13.5 C10.5 12 12 11 13.5 10.2 M10.5 17 C12.5 15 14.5 13.6 16.8 12.4' stroke='%232c6b4a' stroke-width='.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") 13 12, pointer}
+}
+
 /* ============ 印章 ============ */
 .seal{width:46px;height:60px;margin:26px auto 0;background:#c94f3d;color:#fff;
   font-family:"KaiTi","楷体","STKaiti",serif;font-size:19px;line-height:1;
@@ -921,6 +927,8 @@ uniform vec2 uRes;
 uniform float uTime;
 uniform vec3 uC1;
 uniform vec3 uC2;
+uniform vec2 uMouse;
+uniform float uMouseOn;
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){
   vec2 i=floor(p),f=fract(p);
@@ -937,11 +945,19 @@ void main(){
   vec2 uv=gl_FragCoord.xy/uRes.y;
   vec2 p=uv*1.9;
   float t=uTime*.035;
-  float w=fbm(p*1.5+t*1.2)*.85;
-  vec2 q=p+vec2(w*.5,w*.28);
+  // 鼠标扰动（轻水波）：墨迹轻微让开并泛起柔和涟漪
+  vec2 m=vec2(uMouse.x*uRes.x/uRes.y,1.0-uMouse.y)*1.9;
+  vec2 dm=p-m;
+  float dd=length(dm);
+  float infl=smoothstep(.6,0.0,dd)*uMouseOn;
+  vec2 dir=dm/max(dd,1e-4);
+  float w0=fbm(p*1.5+t*1.2)*.85;
+  vec2 q=p+vec2(w0*.5,w0*.28);
+  q+=dir*infl*.08+vec2(-dir.y,dir.x)*infl*.035;
   float n=fbm(q+vec2(t*.3,-t*.25));
   float n2=fbm(q*2.1-t*.45);
-  float ink=smoothstep(.12,.8,(n*.8+n2*.2)/1.23);
+  float rip=sin(dd*9.0-t*5.5)*.05*infl;
+  float ink=smoothstep(.12,.8,(n*.8+n2*.2)/1.23+rip);
   vec3 col=mix(uC1,uC2,ink);
   float a=.14+1.05*smoothstep(.22,.62,ink);
   a*=smoothstep(.12,1.,ink);
@@ -973,6 +989,8 @@ void main(){
   const uTime = gl.getUniformLocation(prog, 'uTime');
   const uC1 = gl.getUniformLocation(prog, 'uC1');
   const uC2 = gl.getUniformLocation(prog, 'uC2');
+  const uMouse = gl.getUniformLocation(prog, 'uMouse');
+  const uMouseOn = gl.getUniformLocation(prog, 'uMouseOn');
 
   function hex(c){
     const n = parseInt(c.slice(1), 16);
@@ -993,8 +1011,23 @@ void main(){
   resize();
   addEventListener('resize', resize);
 
+  // 鼠标/触摸追踪（带动水墨）
+  let tx = .5, ty = .5, cx = .5, cy = .5, active = 0, on = 0;
+  addEventListener('pointermove', e => {
+    tx = e.clientX / innerWidth;
+    ty = e.clientY / innerHeight;
+    active = 1;
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => { active = 0; });
+
   const t0 = performance.now();
   (function loop(){
+    // 平滑跟随 + 渐显渐隐
+    cx += (tx - cx) * .12;
+    cy += (ty - cy) * .12;
+    on += (active - on) * .06;
+    gl.uniform2f(uMouse, cx, cy);
+    gl.uniform1f(uMouseOn, on);
     gl.uniform1f(uTime, (performance.now() - t0) / 1000);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     requestAnimationFrame(loop);
