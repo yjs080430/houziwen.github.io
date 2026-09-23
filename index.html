@@ -8,7 +8,11 @@
 <style>
 /* ============ 基础 ============ */
 :root{
-  --bg-grad:linear-gradient(180deg,#e3efdd 0%,#d4e5cd 45%,#dfeeda 100%);
+  --bg-grad:radial-gradient(55% 45% at 18% 28%,rgba(82,163,125,.3),transparent 62%),
+    radial-gradient(45% 40% at 82% 18%,rgba(56,124,92,.26),transparent 60%),
+    radial-gradient(65% 55% at 62% 82%,rgba(82,163,125,.26),transparent 66%),
+    radial-gradient(40% 35% at 40% 55%,rgba(56,124,92,.2),transparent 60%),
+    linear-gradient(180deg,#cbe0ca 0%,#b7d2b8 45%,#c4dbc3 100%);
   --ink:#1c3125;--ink2:rgba(28,49,37,.72);--ink3:rgba(28,49,37,.48);
   --green:#3fae7a;--green-d:#2c8a5e;--blue:#4ea8d8;--amber:#e8a54a;--amber-d:#c07d28;
   --line:rgba(28,49,37,.15);
@@ -35,7 +39,7 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 
 /* ============ 水墨背景画布 ============ */
 #watercolorBg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;width:100%;height:100%;
-  opacity:.7;mix-blend-mode:multiply;pointer-events:none}
+  opacity:.8;mix-blend-mode:multiply;pointer-events:none}
 
 /* ============ 叶子光标 ============ */
 @media (pointer:fine){
@@ -65,9 +69,9 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
   transition:transform 1.45s cubic-bezier(.68,0,.26,1);will-change:transform}
 #screen .panel::before{content:'';position:absolute;top:10px;left:10px;right:10px;bottom:10px;border:1px solid rgba(70,80,40,.22)}
 #screen .panel::after{content:'';position:absolute;top:24px;left:24px;right:24px;bottom:24px;border:1px solid rgba(70,80,40,.1)}
-#screen .p0,#screen .p5{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 14px,rgba(120,110,70,.035) 14px 15px),linear-gradient(180deg,#ece7d2,#d9d2b6)}
-#screen .p1,#screen .p4{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 14px,rgba(120,110,70,.035) 14px 15px),linear-gradient(180deg,#e9e4d0,#d6cfb3)}
-#screen .p2,#screen .p3{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 14px,rgba(120,110,70,.035) 14px 15px),linear-gradient(180deg,#e7e2cd,#d3ccae)}
+#screen .p0,#screen .p5{background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 14px,rgba(60,100,70,.04) 14px 15px),linear-gradient(180deg,#d3e3cc,#b7cfb5)}
+#screen .p1,#screen .p4{background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 14px,rgba(60,100,70,.04) 14px 15px),linear-gradient(180deg,#cfe0c8,#b1cab0)}
+#screen .p2,#screen .p3{background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 14px,rgba(60,100,70,.04) 14px 15px),linear-gradient(180deg,#cbddc3,#abc5aa)}
 #screen .mt{position:absolute;bottom:12%;left:50%;transform:translateX(-50%);width:88%}
 #screen .birds{position:absolute;top:22%;left:50%;transform:translateX(-50%);width:70%}
 #screen .moon{position:absolute;top:14%;left:50%;transform:translateX(-50%);width:5.7vw;height:5.7vw;min-width:26px;min-height:26px;border-radius:50%;
@@ -193,7 +197,11 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 .reveal.in{opacity:1;filter:blur(0);transform:translateY(0)}
 
 /* ============ Profile ============ */
-#profile .bio{font-size:17.5px;font-weight:400;line-height:2.05;letter-spacing:.14em;color:rgba(28,49,37,.92);margin-bottom:34px}
+.bio-block{margin-bottom:30px}
+.bio-label{display:flex;align-items:center;gap:10px;font-family:var(--display-font);font-size:21px;
+  letter-spacing:.35em;color:#2f6b4b;margin-bottom:12px}
+.bio-label::before{content:'';width:5px;height:5px;border-radius:50%;background:#c94f3d;box-shadow:0 0 8px rgba(201,79,61,.55)}
+#profile .bio{font-size:17.5px;font-weight:400;line-height:2.05;letter-spacing:.14em;color:rgba(28,49,37,.92)}
 #profile .bio b{font-weight:700;color:#2f6b4b}
 .tags{display:flex;flex-wrap:wrap;gap:10px}
 .tags .tag{display:inline-flex;align-items:center;padding:6px 13px;border-radius:999px;
@@ -211,7 +219,7 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 .rcard{position:absolute;top:0;left:0;right:0;bottom:0;transform-style:preserve-3d;
   transform:rotateY(calc(var(--i)*90deg)) translateZ(var(--radius,280px))}
 .rcard .face{position:absolute;top:0;left:0;right:0;bottom:0;border-radius:10px;border:1px solid rgba(70,90,60,.35);
-  background:linear-gradient(180deg,#f7f4e8,#efe9d6);
+  background:linear-gradient(180deg,#e9f1dd,#dce7cd);
   box-shadow:0 12px 32px rgba(47,125,88,.16);backface-visibility:hidden;-webkit-backface-visibility:hidden;
   display:flex;flex-direction:column;padding:16px;overflow:hidden}
 .rcard .face::after{content:'';position:absolute;top:7px;left:7px;right:7px;bottom:7px;border:1px solid rgba(70,90,60,.16);border-radius:6px;pointer-events:none}
@@ -226,12 +234,12 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
 .rcard .rno{position:absolute;top:6px;right:12px;font-family:var(--display-font);font-size:26px;color:rgba(47,107,75,.45)}
 .rcard h3{font-size:18px;font-weight:400;margin:6px 0 10px;color:#22392a;letter-spacing:.08em}
 .rcard p{font-size:12px;font-weight:400;line-height:1.9;letter-spacing:.05em;color:rgba(28,49,37,.8);flex:1}
-.rcard .pill{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:rgba(26,43,33,.6);
-  padding:5px 12px;border-radius:999px;border:1px solid rgba(70,90,60,.25);background:rgba(247,244,232,.85);
+.rcard .pill{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:rgba(26,43,33,.62);
+  padding:5px 12px;border-radius:999px;border:1px solid rgba(70,90,60,.25);background:rgba(230,240,221,.85);
   width:max-content;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rcard .cert-strip{display:flex;gap:3px;margin:6px 0 10px}
 .rcard .cert-strip img{width:26px;height:20px;object-fit:cover;border-radius:3px;border:1px solid rgba(70,90,60,.22);
-  background:#fbf9f0;cursor:zoom-in}
+  background:#eef4e6;cursor:zoom-in}
 .svc-hint{margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;color:var(--ink3)}
 @media(max-width:767px){
   .svc-viewport{height:300px}
@@ -462,7 +470,7 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
         <h2>侯梓文 <small>/ HOU ZIWEN</small></h2>
         <div class="ln"></div>
       </div>
-      <p class="motto">“ 立志成为懂技术的金融人 ”</p>
+      <p class="motto">“ 先完成，再完美 ”</p>
       <div class="seal" aria-hidden="true">梓文</div>
     </div>
     <div class="poem" aria-hidden="true">虚怀若谷 · 格物致知</div>
@@ -478,12 +486,19 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
     </div>
     <div class="body">
       <div class="reveal">
-        <p class="bio">我是一名<b>金融学本科在读</b>的学生，也是一名游走在金融与 AI 之间的探索者。<br><br>
-        性格随和、有耐心，但决策果断不拖拉；责任心强，善于沟通、不畏惧表达。
-        从高中双科课代表的组织历练，到大学里用 <b>Claude Code</b> 等 AI 模型武装自己的学习与工作流，
-        我始终坚持一件事：<b>用技术让专业更高效，用表达让协作更顺畅。</b></p>
+        <div class="bio-block">
+          <div class="bio-label">简 介</div>
+          <p class="bio">我是一名持续用 <b>AI 提升学习与工作效率</b>的求学者，也是一名游走在金融与 AI 之间的探索者。<br><br>
+          从高中双科课代表的组织历练，到用 <b>Claude Code</b> 等 AI 模型武装自己的学习与工作流，
+          我始终坚持一件事：<b>用技术让专业更高效，用表达让协作更顺畅。</b></p>
+        </div>
+        <div class="bio-block">
+          <div class="bio-label">性 格</div>
+          <p class="bio">性格随和、有耐心，但决策果断不拖拉；责任心强，善于沟通、不畏惧表达。<br>
+          <b>MBTI</b>：ENFJ · 主人公型人格 —— 天生的沟通者与团队枢纽。</p>
+        </div>
         <div class="tags">
-          <div class="tag"><span>FIN // 金融分析 · 经济学</span></div>
+          <div class="tag"><span>LEARN // 自主学习 · 持续成长</span></div>
           <div class="tag"><span>AI // CLAUDE CODE · 持续学习</span></div>
           <div class="tag"><span>SYS // 效率工具 · 自动化</span></div>
           <div class="tag"><span>DESIGN // PPT · 视频剪辑</span></div>
@@ -526,11 +541,11 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
               <div class="rcard" style="--i:1">
                 <div class="face front">
                   <div class="rno">贰</div>
-                  <h3>PPT 设计</h3>
-                  <p>从逻辑梳理到版式美化，让复杂的汇报内容变得直观易懂。</p>
-                  <div class="pill">DESIGN // POWERPOINT</div>
+                  <h3>办公软件运用</h3>
+                  <p>擅长 PPT 制作与表格制作。从逻辑梳理到版式美化，让汇报清晰直观；用表格高效整理数据、让信息一目了然。</p>
+                  <div class="pill">OFFICE // PPT · 表格</div>
                 </div>
-                <div class="face back"><span class="bk">雅</span><span>PPT DESIGN</span></div>
+                <div class="face back"><span class="bk">勤</span><span>OFFICE SUITE</span></div>
               </div>
               <div class="rcard" style="--i:2">
                 <div class="face front">
@@ -571,12 +586,11 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
           <div class="rail r1"></div><div class="rail r2"></div>
           <div class="item">
             <div class="dot"><i></i></div>
-            <span class="date">2024.09 - 至今</span>
-            <h4>金融学本科 · 合肥大学</h4>
-            <p>系统学习宏观经济学、微观经济学、公司金融、计量经济学等核心课程。以 AI 之力为金融赋能，立志成为懂技术的金融人。</p>
+            <span class="date">2026.09 - 至今</span>
+            <h4>军训联络员 · 26金融2班</h4>
+            <p>任职军训联络员，负责训练期间的信息传达与协调对接，服务班级同学。</p>
             <div class="ttags">
-              <div class="t"><i></i><span>FIN // 经济学 · 公司金融</span></div>
-              <div class="t"><i></i><span>AI // 交叉探索</span></div>
+              <div class="t"><i></i><span>CAMPUS // 联络 · 协调</span></div>
             </div>
           </div>
           <div class="item">
@@ -648,7 +662,7 @@ button{font-family:inherit;background:none;border:none;color:inherit;cursor:poin
               <span class="top"><span>02 / CASE FILE</span><span class="arrow">↗</span></span>
               <span class="cat">ENGLISH // EXAM</span>
               <span class="title">高中英语 130+</span>
-              <span class="desc">高中英语成绩稳定保持在 130 分以上，高考以优异成绩考入合肥大学金融系。</span>
+              <span class="desc">高中英语成绩稳定保持在 130 分以上，高考英语发挥出色。</span>
             </span>
             <span class="ttags"><span>英语</span><span>130+</span></span>
           </button>
@@ -997,7 +1011,7 @@ void main(){
     return [(n>>16&255)/255, (n>>8&255)/255, (n&255)/255];
   }
   gl.uniform3fv(uC1, hex('#52a37d'));   // 青绿墨（鲜亮）
-  gl.uniform3fv(uC2, hex('#cfe5d3'));   // 浅绿（清透）
+  gl.uniform3fv(uC2, hex('#a3c9ad'));   // 中绿（去白）
 
   function resize(){
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
